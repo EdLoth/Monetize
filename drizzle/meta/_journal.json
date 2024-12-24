@@ -1,0 +1,20 @@
+{
+  "version": "5",
+  "dialect": "pg",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1735046739680,
+      "tag": "0000_pale_jackpot",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1735047680514,
+      "tag": "0001_swift_sway",
+      "breakpoints": true
+    }
+  ]
+}
