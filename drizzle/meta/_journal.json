@@ -15,6 +15,13 @@
       "when": 1735047680514,
       "tag": "0001_swift_sway",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1735317476827,
+      "tag": "0002_unknown_thunderbolt",
+      "breakpoints": true
     }
   ]
 }
