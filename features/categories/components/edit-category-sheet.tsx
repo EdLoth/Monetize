@@ -13,8 +13,9 @@ import { useGetCategory } from "../api/use-get-category";
 import { Loader2 } from "lucide-react";
 import { useEditCategory } from "../api/use-edit-category";
 import { useDeleteCategory } from "../api/use-delete-category";
-import useConfirm from "@/hooks/use-confirm";
+import {useConfirm} from "@/hooks/use-confirm";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = insertCategorySchema.pick({
   name: true,
 });

@@ -70,3 +70,10 @@ body {
     @apply bg-background text-foreground;
   }
 }
+
+
+.cl-avatarBox {
+  border-radius: 15px !important;
+  width: 3rem;
+  height: 3rem;
+}

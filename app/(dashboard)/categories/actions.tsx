@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 
-import useConfirm from "@/hooks/use-confirm";
+import {useConfirm} from "@/hooks/use-confirm";
 import { useDeleteCategory } from "@/features/categories/api/use-delete-category";
 import { useOpenCategory } from "@/features/categories/hooks/use-open-category";
 

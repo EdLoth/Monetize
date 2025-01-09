@@ -14,7 +14,7 @@ import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
 } from "@/components/ui/form";
 
 import { Select } from "@/components/select";
@@ -68,7 +68,7 @@ export const TransactionForm = ({
 
   const handleSubmit = (data: FormValues) => {
     console.log(data.amount);
-    const amount = parseFloat(data.amount.replace(',', '.'));
+    const amount = parseFloat(data.amount.replace(",", "."));
     console.log(amount);
     const amountInMiliunits = convertAmountToMiliunits(amount);
     onSubmit({
@@ -151,11 +151,13 @@ export const TransactionForm = ({
                   disabled={disabled}
                   placeholder="Add a payee"
                   {...field}
+                  value={field.value ?? ""} 
                 />
               </FormControl>
             </FormItem>
           )}
         />
+
         <FormField
           name="amount"
           control={form.control}

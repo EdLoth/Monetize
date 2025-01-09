@@ -13,8 +13,9 @@ import { useGetAccount } from "../api/use-get-account";
 import { Loader2 } from "lucide-react";
 import { useEditAccount } from "../api/use-edit-account";
 import { useDeleteAccount } from "../api/use-delete-account";
-import useConfirm from "@/hooks/use-confirm";
+import {useConfirm} from "@/hooks/use-confirm";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const formSchema = insertAccountSchema.pick({
   name: true,
 });
@@ -26,7 +27,7 @@ export const EditAccountSheet = () => {
 
   const [ConfirmDialog, confirm] = useConfirm(
     "Are you sure you want to delete this account?",
-    "You are about to delete this accaunt."
+    "You are about to delete this account."
   );
 
   const accountQuery = useGetAccount(id);

@@ -7,12 +7,12 @@ import {
   DialogDescription,
   DialogFooter,
   DialogHeader,
-  DialogTitle
+  DialogTitle,
 } from "@/components/ui/dialog";
 
-const useConfirm = (
+export const useConfirm = (
   title: string,
-  message: string
+  message: string,
 ): [() => JSX.Element, () => Promise<unknown>] => {
   const [promise, setPromise] = useState<{
     resolve: (value: boolean) => void;
@@ -24,18 +24,18 @@ const useConfirm = (
     });
 
   const handleClose = () => {
-    setPromise(null)
-  }
+    setPromise(null);
+  };
 
   const handleConfirm = () => {
     promise?.resolve(true);
     handleClose();
-  }
+  };
 
   const handleCancel = () => {
     promise?.resolve(false);
     handleClose();
-  }
+  };
 
   const ConfirmationDialog = () => (
     <Dialog open={promise !== null}>
@@ -45,17 +45,10 @@ const useConfirm = (
           <DialogDescription>{message}</DialogDescription>
         </DialogHeader>
         <DialogFooter className="pt-2">
-          <Button
-            onClick={handleCancel}
-            variant="outline"
-          >
+          <Button variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button
-            onClick={handleConfirm}
-          >
-            Confirm
-          </Button>
+          <Button onClick={handleConfirm}>Confirm</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
@@ -63,5 +56,3 @@ const useConfirm = (
 
   return [ConfirmationDialog, confirm];
 };
-
-export default useConfirm;
