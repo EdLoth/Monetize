@@ -7,7 +7,7 @@ import { Filters } from "./filter";
 
 export const Header = () => {
   return (
-    <header className="bg-gradient-to-b from-blue-950 to-blue-800 px-4 py-8 lg:px-14 pb-36">
+    <header className="bg-gradient-to-b from-[#097969] to-blue-800 px-4 py-8 lg:px-14 pb-36">
       <div className="max-w-screen-2xl mx-auto">
         <div className="w-full flex items-center justify-between lg:gap-x-10 mb-14">
           <div className="flex items-center lg:justify-between lg:w-full">
