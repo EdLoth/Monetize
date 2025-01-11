@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { useState, useRef, JSX } from "react";
+import React, { useState, useRef } from "react";
 
 import { useGetAccounts } from "@/features/accounts/api/use-get-accounts";
 import { useCreateAccount } from "@/features/accounts/api/use-create-account";
@@ -17,7 +17,7 @@ import {
 } from "@/components/ui/dialog";
 
 export const useSelectAccount = (): [
-  () => JSX.Element,
+  () => React.ReactNode,
   () => Promise<unknown>,
 ] => {
   const accountQuery = useGetAccounts();
