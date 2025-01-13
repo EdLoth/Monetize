@@ -1,8 +1,14 @@
+"use client"
 import { Loader2 } from 'lucide-react'
 import { ClerkLoaded, ClerkLoading, SignIn } from "@clerk/nextjs";
 import Image from 'next/image';
+import { useEffect } from 'react';
 
 export default function Page() {
+  useEffect(() => {
+    document.title = "Monetize - SignIn Page";
+  }, []);
+
   return (
     <div className="min-h-screen grid grid-cols-1 lg:grid-cols-2">
       <div className="h-full lg:flex bg-slate-100 flex-col items-center justify-center px-4">

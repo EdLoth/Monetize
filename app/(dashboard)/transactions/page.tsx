@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense } from "react";
+import { Suspense, useEffect } from "react";
 import { useState } from "react";
 import { useGetTransactions } from "@/features/transactions/api/use-get-transactions";
 import { useSelectAccount } from "@/features/accounts/hooks/use-select-account";
@@ -32,7 +32,10 @@ const INITIAL_IMPORT_RESULTS = {
 };
 
 const TransactionsPage = () => {
-  // Suspense envolve o componente que lida com os dados
+  useEffect(() => {
+      document.title = "Monetize - Transactions Page";
+    }, []);
+
   return (
     <Suspense fallback={<div>Loading Transactions...</div>}>
       <TransactionsWithData />

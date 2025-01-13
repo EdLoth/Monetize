@@ -10,14 +10,19 @@ import { DataTable } from "@/components/data-table";
 import { useGetCategories } from "@/features/categories/api/use-get-categories";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useBulkDeleteCategories } from "@/features/categories/api/use-bulk-delete-categories";
+import { useEffect } from "react";
 
 const CategoriesPage = () => {
+  useEffect(() => {
+    document.title = "Monetize - Categories Page";
+  }, []);
+
   const newCategory = useNewCategory();
-  const deleteCategories = useBulkDeleteCategories()
+  const deleteCategories = useBulkDeleteCategories();
   const categoriesQuery = useGetCategories();
   const categories = categoriesQuery.data || [];
 
-  const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending
+  const isDisabled = categoriesQuery.isLoading || deleteCategories.isPending;
 
   if (categoriesQuery.isLoading) {
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
@@ -31,14 +36,16 @@ const CategoriesPage = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </div>;
   }
 
   return (
     <div className="max-w-screen-2xl mx-auto w-full pb-10 -mt-24">
       <Card className="border-none drop-shadow-sm">
         <CardHeader className="gap-y-2 lg:flex-row lg:items-center lg:justify-between">
-          <CardTitle className="text-xl line-clamp-1">Categories page</CardTitle>
+          <CardTitle className="text-xl line-clamp-1">
+            Categories page
+          </CardTitle>
           <Button onClick={newCategory.onOpen} size="sm">
             <Plus className="size-4 mr-2" />
             Add new
@@ -50,8 +57,8 @@ const CategoriesPage = () => {
             data={categories}
             filterKey="name"
             onDelete={(row) => {
-              const ids = row.map((r) => r.original.id)
-              deleteCategories.mutate({ ids })
+              const ids = row.map((r) => r.original.id);
+              deleteCategories.mutate({ ids });
             }}
             disabled={isDisabled}
           />
