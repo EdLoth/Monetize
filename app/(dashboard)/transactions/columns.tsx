@@ -82,6 +82,43 @@ export const columns: ColumnDef<ResponseType>[] = [
     },
   },
   {
+    accessorKey: "installments",
+    header: ({ column }) => {
+      return (
+        <Button
+          variant="ghost"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+        >
+          Installments
+          <ArrowUpDown className="ml-2 h-4 w-4" />
+        </Button>
+      );
+    },
+    cell: ({ row }) => {
+      // Acessando diretamente uma propriedade no objeto 'row.original'
+      const rowData = row.original; // Isso é o objeto original da linha
+  
+      // Verificando a propriedade que você está interessado (por exemplo, 'type')
+      const type = rowData.type;
+  
+      let displayValue: string = ""; // Inicialização padrão necessária para evitar erros de TypeScript
+  
+      // A lógica de verificação agora não depende de uma coluna inexistente
+      if (type === "single") {
+        displayValue = "Single";
+      } else if (type === "recurring") {
+        displayValue = "Recurring";
+      } else if (type === "installments") {
+        const installments = rowData.installments; // Acessando 'installments' diretamente
+        if (installments) {
+          displayValue = installments;
+        }
+      }
+  
+      return <span>{displayValue}</span>;
+    }
+  },
+  {
     accessorKey: "date",
     header: ({ column }) => {
       return (

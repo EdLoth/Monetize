@@ -29,6 +29,20 @@
       "when": 1736029551176,
       "tag": "0003_clammy_maria_hill",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1737049043478,
+      "tag": "0004_abnormal_crystal",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1737058590575,
+      "tag": "0005_talented_slipstream",
+      "breakpoints": true
     }
   ]
 }

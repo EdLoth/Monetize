@@ -1,4 +1,4 @@
-import { differenceInDays, parse, subDays } from "date-fns";
+import { differenceInDays, endOfMonth, parse, startOfMonth, subDays } from "date-fns";
 import { Hono } from "hono";
 import { z } from "zod";
 import { and, desc, eq, gte, lt, lte, sql, sum } from "drizzle-orm";
@@ -29,13 +29,17 @@ const app = new Hono().get(
       return c.json({ error: "Unauthorized" }, 401);
     }
 
-    const defaultTo = new Date();
-    const defaultFrom = subDays(defaultTo, 30);
+    const currentDate = new Date();
 
+    const defaultFrom = startOfMonth(currentDate);
+    const defaultTo = endOfMonth(currentDate);
+    
     const startDate = from
       ? parse(from, "yyyy-MM-dd", new Date())
       : defaultFrom;
-    const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
+    const endDate = to
+      ? parse(to, "yyyy-MM-dd", new Date())
+      : defaultTo;
 
     const periodLength = differenceInDays(endDate, startDate) + 1;
     const lastPeriodStart = subDays(startDate, periodLength);

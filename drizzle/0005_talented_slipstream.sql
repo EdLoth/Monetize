@@ -1,0 +1,1 @@
+ALTER TABLE "transactions" ALTER COLUMN "installments" SET DATA TYPE text;

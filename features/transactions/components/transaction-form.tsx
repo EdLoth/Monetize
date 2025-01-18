@@ -28,6 +28,8 @@ const formSchema = z.object({
   payee: z.string(),
   amount: z.string(),
   notes: z.string().nullable().optional(),
+  type: z.enum(["single", "installments", "recurring"]), // Adiciona o campo type
+  installments: z.string().optional().nullable(),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -151,7 +153,7 @@ export const TransactionForm = ({
                   disabled={disabled}
                   placeholder="Add a payee"
                   {...field}
-                  value={field.value ?? ""} 
+                  value={field.value ?? ""}
                 />
               </FormControl>
             </FormItem>
@@ -174,6 +176,52 @@ export const TransactionForm = ({
             </FormItem>
           )}
         />
+           {/* Outros campos existentes */}
+           <FormField
+          name="type"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Type</FormLabel>
+              <FormControl>
+                <Select
+                  placeholder="Select transaction type"
+                  options={[
+                    { label: "Single", value: "single" },
+                    { label: "Installments", value: "installments" },
+                    { label: "Recurring", value: "recurring" },
+                  ]}
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={disabled}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        {/* Campo installments aparece condicionalmente */}
+        {form.watch("type") === "installments" && (
+          <FormField
+            name="installments"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Installments</FormLabel>
+                <FormControl>
+                  <Input
+                    {...field}
+                    type="number" // Aceita apenas números
+                    disabled={disabled}
+                    placeholder="e.g., 12"
+                    value={field.value ?? ""}
+                    onChange={(e) => field.onChange(String(e.target.value))} // Converte para número
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+        )}
         <FormField
           name="notes"
           control={form.control}

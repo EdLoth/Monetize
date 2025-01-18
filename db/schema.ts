@@ -43,8 +43,11 @@ export const transactions = pgTable("transactions", {
     }).notNull(),
     categoryId: text("category_id").references(() => categories.id, {
         onDelete: "set null"
-    })
-})
+    }),
+    type: text("type").notNull(), 
+    installments: text("installments"), // Número de parcelas, pode ser null para transações únicas ou fixas.
+});
+
 
 export const transactionsRelations = relations(transactions, ({ one }) => ({
     account: one(accounts, {

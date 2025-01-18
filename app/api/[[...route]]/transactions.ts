@@ -5,7 +5,7 @@ import { clerkMiddleware, getAuth } from "@hono/clerk-auth";
 import { zValidator } from "@hono/zod-validator";
 import { createId } from "@paralleldrive/cuid2";
 import { z } from "zod";
-import { subDays, parse } from "date-fns";
+import { parse, startOfMonth, endOfMonth } from "date-fns";
 
 import {
   transactions,
@@ -33,12 +33,15 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const defaultTo = new Date();
-      const defaultFrom = subDays(defaultTo, 30);
+      const currentDate = new Date();
+
+      const defaultFrom = startOfMonth(currentDate);
+      const defaultTo = endOfMonth(currentDate);
 
       const startDate = from
         ? parse(from, "yyyy-MM-dd", new Date())
         : defaultFrom;
+
       const endDate = to ? parse(to, "yyyy-MM-dd", new Date()) : defaultTo;
 
       const data = await db
@@ -52,6 +55,8 @@ const app = new Hono()
           notes: transactions.notes,
           account: accounts.name,
           accountId: transactions.accountId,
+          type: transactions.type,
+          installments: transactions.installments,
         })
         .from(transactions)
         .innerJoin(accounts, eq(transactions.accountId, accounts.id))
@@ -100,6 +105,8 @@ const app = new Hono()
           amount: transactions.amount,
           notes: transactions.notes,
           accountId: transactions.accountId,
+          type: transactions.type,
+          installments: transactions.installments,
         })
         .from(transactions)
         .innerJoin(accounts, eq(transactions.accountId, accounts.id))
@@ -129,15 +136,74 @@ const app = new Hono()
         return c.json({ error: "Unauthorized" }, 401);
       }
 
-      const [data] = await db
+      const { type, amount, installments, date, ...rest } = values;
+
+      console.log("Received type:", type); // Adicionando log de debug
+
+      // Criação de transações baseadas no tipo
+      const transactionsToInsert = [];
+      const baseId = createId();
+
+      if (type === "single") {
+        // Transação única
+        transactionsToInsert.push({
+          id: baseId,
+          amount,
+          date,
+          type, // Incluindo o tipo
+          ...rest,
+        });
+      } else if (type === "installments" && installments) {
+        // Transação parcelada
+        const installmentsNumber = parseInt(installments, 10); // Converte para número
+        const amountPerInstallment = Math.round(amount / installmentsNumber);
+        const initialDate = new Date(date);
+
+        for (let i = 0; i < installmentsNumber; i++) {
+          const installmentDate = new Date(
+            initialDate.getFullYear(),
+            initialDate.getMonth() + i,
+            initialDate.getDate()
+          );
+
+          transactionsToInsert.push({
+            id: createId(),
+            amount: amountPerInstallment,
+            date: installmentDate,
+            type, // Incluindo o tipo
+            installments: `${i + 1}/${installments}`, // Adicionando no formato "1/10", "2/10", etc.
+            ...rest,
+          });
+        }
+      } else if (type === "recurring") {
+        // Transação fixa (melhor lógica)
+        const initialDate = new Date(date);
+        for (let i = 0; i < 12; i++) {
+          const fixedDate = new Date(
+            initialDate.getFullYear(),
+            initialDate.getMonth() + i,
+            initialDate.getDate()
+          );
+
+          transactionsToInsert.push({
+            id: createId(),
+            amount,
+            date: fixedDate,
+            type, // Incluindo o tipo
+            ...rest,
+          });
+        }
+      } else {
+        return c.json({ error: "Invalid type or missing data" }, 400);
+      }
+
+      // Inserção no banco de dados
+      const insertedTransactions = await db
         .insert(transactions)
-        .values({
-          id: createId(),
-          ...values,
-        })
+        .values(transactionsToInsert)
         .returning();
 
-      return c.json({ data });
+      return c.json({ data: insertedTransactions });
     }
   )
   .post(
@@ -158,17 +224,16 @@ const app = new Hono()
       }
 
       const data = await db
-      .insert(transactions)
-      .values(
-        values.transactions.map((value) => ({
-          id: createId(),
-          ...value,
-        }))
-      )
-      .returning()
+        .insert(transactions)
+        .values(
+          values.transactions.map((value) => ({
+            id: createId(),
+            ...value,
+          }))
+        )
+        .returning();
 
-      return c.json({ data })
-      
+      return c.json({ data });
     }
   )
   .post(
@@ -306,7 +371,6 @@ const app = new Hono()
           .innerJoin(accounts, eq(transactions.accountId, accounts.id))
           .where(and(eq(transactions.id, id), eq(accounts.userId, auth.userId)))
       );
-
 
       const [data] = await db
         .with(transactionsToDelete)
