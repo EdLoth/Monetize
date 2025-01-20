@@ -28,7 +28,7 @@ const formSchema = z.object({
   payee: z.string(),
   amount: z.string(),
   notes: z.string().nullable().optional(),
-  type: z.enum(["single", "installments", "recurring"]), // Adiciona o campo type
+  type: z.string().nonempty(), // Adiciona o campo type
   installments: z.string().optional().nullable(),
 });
 

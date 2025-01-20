@@ -87,6 +87,7 @@ export const EditTransactionSheet = () => {
           : new Date(),
         payee: transactionQuery.data.payee,
         notes: transactionQuery.data.notes,
+        type: transactionQuery.data.type,
       }
     : {
         accountId: "",
@@ -95,6 +96,7 @@ export const EditTransactionSheet = () => {
         date: new Date(),
         payee: "",
         notes: "",
+        type: ""
       };
 
   const onDelete = async () => {
