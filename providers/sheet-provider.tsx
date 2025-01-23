@@ -11,6 +11,9 @@ import { EditCategorySheet } from "@/features/categories/components/edit-categor
 import { NewTransactionSheet } from "@/features/transactions/components/new-transaction-sheet";
 import { EditTransactionSheet } from "@/features/transactions/components/edit-transaction-sheet";
 
+import { NewWishSheet } from "@/features/wishlist/components/new-wishlist-sheet";
+import { EditWishSheet } from "@/features/wishlist/components/edit-wishlist-sheet";
+
 export const SheetProvider = () => {
   // hydration error
   // const isMounted = useMountedState();
@@ -34,6 +37,9 @@ export const SheetProvider = () => {
 
       <NewTransactionSheet />
       <EditTransactionSheet />
+
+      <NewWishSheet />
+      <EditWishSheet />
     </>
   );
 };
