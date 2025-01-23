@@ -31,10 +31,6 @@ const routes = [
     label: "Categories"
   },
   {
-    href: "/achievements",
-    label: "Achievements"
-  },
-  {
     href: "/wishlist",
     label: "Wishlist"
   },
