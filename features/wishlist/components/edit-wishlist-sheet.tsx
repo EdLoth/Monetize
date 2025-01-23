@@ -65,11 +65,17 @@ export const EditWishSheet = () => {
         title: wishQuery.data.title,
         amount: wishQuery.data.amount.toString(),
         link: wishQuery.data.link,
+        status: wishQuery.data.status,
+        date: wishQuery.data.date
+          ? new Date(wishQuery.data.date)
+          : new Date(),
       }
     : {
         title: "",
         amount: "",
         link: "",
+        date: new Date(),
+        status: ""
       };
 
   return (
@@ -78,8 +84,8 @@ export const EditWishSheet = () => {
       <Sheet open={isOpen} onOpenChange={onClose}>
         <SheetContent className="space-y-4">
           <SheetHeader>
-            <SheetTitle>Edit Category</SheetTitle>
-            <SheetDescription>Edit an existing category.</SheetDescription>
+            <SheetTitle>Edit Wish</SheetTitle>
+            <SheetDescription>Edit an existing wish.</SheetDescription>
           </SheetHeader>
           {isLoading ? (
             <div

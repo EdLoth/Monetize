@@ -73,10 +73,13 @@ export const wishlist = pgTable("wishlist", {
   title: text("title").notNull(),
   link: text("link"),
   createdAt: timestamp("createdAt").defaultNow().notNull(),
+  date: timestamp("date", { mode: "date" }).defaultNow().notNull(),
   userId: text("user_id").notNull(),
+  status: text("status").default('not_started').notNull(),
 });
 
 // Schema de inserção para wishlists
 export const insertWishlistSchema = createInsertSchema(wishlist, {
   createdAt: z.coerce.date(),
+  date: z.coerce.date(),
 });

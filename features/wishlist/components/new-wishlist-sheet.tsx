@@ -44,11 +44,6 @@ export const NewWishSheet = () => {
         <WishlistForm
           onSubmit={onSubmit}
           disabled={mutation.isPending}
-          defaultValues={{
-            title: "",
-            amount: "",
-            link: "",
-          }}
         />
       </SheetContent>
     </Sheet>

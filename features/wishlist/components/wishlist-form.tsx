@@ -17,23 +17,25 @@ import {
 } from "@/components/ui/form";
 
 import { AmountInput } from "@/components/amount-input2";
+import { DatePicker } from "@/components/date-picker";
+import { Select } from "@/components/select";
 
 const formSchema = z.object({
   title: z.string(),
   amount: z.string(),
   link: z.string().nullable().optional(),
+  date: z.coerce.date(),
+  status: z.string(),
 });
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const apiSchema = insertWishlistSchema.omit({
   id: true,
-  userId: true
+  userId: true,
 });
-
 
 type FormValues = z.input<typeof formSchema>;
 type ApiFormValues = z.input<typeof apiSchema>;
-
 
 type Props = {
   id?: string;
@@ -43,17 +45,32 @@ type Props = {
   disabled?: boolean;
 };
 
+type StatusOptionsTypes  =  {
+    label: string;
+    value: string;
+}[]
+
+
+
 export const WishlistForm = ({
   id,
   defaultValues,
   onSubmit,
   onDelete,
-  disabled
+  disabled,
 }: Props) => {
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues,
   });
+
+  const statusOptions: StatusOptionsTypes = [
+    { label: "Not Started", value: "not_started" },
+    { label: "In Progress", value: "in_progress" },
+    { label: "Achieved", value: "achieved" },
+    { label: "Researching", value: "researching" },
+  ];
+  
 
   const handleSubmit = (data: FormValues) => {
     const amount = parseFloat(data.amount.replace(",", "."));
@@ -94,6 +111,22 @@ export const WishlistForm = ({
         />
 
         <FormField
+          name="date"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <DatePicker
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={disabled}
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
           name="amount"
           control={form.control}
           render={({ field }) => (
@@ -104,6 +137,25 @@ export const WishlistForm = ({
                   {...field}
                   disabled={disabled}
                   placeholder="0.00"
+                />
+              </FormControl>
+            </FormItem>
+          )}
+        />
+
+        <FormField
+          name="status"
+          control={form.control}
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Status</FormLabel>
+              <FormControl>
+                <Select
+                  placeholder="Select an status"
+                  options={statusOptions}
+                  value={field.value}
+                  onChange={field.onChange}
+                  disabled={disabled}
                 />
               </FormControl>
             </FormItem>

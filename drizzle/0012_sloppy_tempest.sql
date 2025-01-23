@@ -1,0 +1,1 @@
+ALTER TABLE "wishlist" ALTER COLUMN "status" SET DEFAULT 'not_started';

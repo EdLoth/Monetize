@@ -34,7 +34,7 @@ export const EditTransactionSheet = () => {
 
   const [ConfirmationDialog, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this transaction.",
+    "You are about to delete this transaction."
   );
 
   const transactionQuery = useGetTransaction(id);
@@ -96,7 +96,7 @@ export const EditTransactionSheet = () => {
         date: new Date(),
         payee: "",
         notes: "",
-        type: ""
+        type: "",
       };
 
   const onDelete = async () => {

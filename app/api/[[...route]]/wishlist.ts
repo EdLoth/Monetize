@@ -21,7 +21,9 @@ const app = new Hono()
         id: wishlist.id,
         title: wishlist.title,
         amount: wishlist.amount,
-        link: wishlist.link
+        link: wishlist.link,
+        status: wishlist.status,
+        date: wishlist.date
       })
       .from(wishlist)
       .where(eq(wishlist.userId, auth.userId));
@@ -57,6 +59,8 @@ const app = new Hono()
           title: wishlist.title,
           link: wishlist.link,
           amount: wishlist.amount,
+          status: wishlist.status,
+          date: wishlist.date
         })
         .from(wishlist)
         .where(and(eq(wishlist.userId, userId), eq(wishlist.id, id)));
@@ -77,6 +81,8 @@ const app = new Hono()
           title: true,
           amount: true,
           link: true,
+          status: true,
+          date: true,
         })
       ),
       async (c) => {
@@ -147,6 +153,8 @@ const app = new Hono()
         title: true,
         amount: true,
         link: true,
+        status: true,
+        date: true
       })
     ),
     async (c) => {
