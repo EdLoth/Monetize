@@ -65,23 +65,6 @@ export const insertTransactionSchema = createInsertSchema(transactions, {
   date: z.coerce.date(),
 });
 
-// Tabela de achievements
-export const achievements = pgTable("achievements", {
-  id: text("id").primaryKey(),
-  amountTotal: integer("amountTotal").notNull(),
-  amountReceived: integer("amountReceived").notNull(),
-  title: text("title").notNull(),
-  image: text("image"),
-  createdAt: timestamp("createdAt").defaultNow().notNull(),
-  monthlyPayment: integer("monthlyPayment").notNull(), // Pagamento mensal
-  paymentHistory: text("paymentHistory").notNull().default("[]"), // Histórico de pagamentos
-  userId: text("user_id").notNull(),
-});
-
-// Schema de inserção para achievements
-export const insertAchievementSchema = createInsertSchema(achievements, {
-  createdAt: z.coerce.date(),
-});
 
 // Tabela de wishlists
 export const wishlist = pgTable("wishlist", {
